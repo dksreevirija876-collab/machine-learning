@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ML Made Simple | Machine Learning for Humans</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --card-sub: #f1f5f9;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+      --primary: #4f46e5;
+      --primary-light: #eef2ff;
+      --primary-hover: #4338ca;
+      --green: #10b981;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --canvas-bg: #f8fafc;
+      --radius: 12px;
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    [data-theme="dark"] {
+      --bg: #0b0f19;
+      --card: #131b2e;
+      --card-sub: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: #27354f;
+      --primary: #6366f1;
+      --primary-light: rgba(99, 102, 241, 0.15);
+      --primary-hover: #4f46e5;
+      --canvas-bg: #0d1424;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+      padding-bottom: 5rem;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.15rem; }
+    .brand span { font-size: 1.6rem; }
+    .theme-btn {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .container { max-width: 900px; margin: 2rem auto; padding: 0 1.25rem; }
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1rem 3rem;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+    h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; }
+    .hero p { font-size: 1.15rem; color: var(--muted); max-width: 650px; margin: 0 auto; }
+    .lesson {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    .lesson-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+    h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .callout {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.25rem 0;
+    }
+    .callout h4 { color: var(--primary); font-size: 1.05rem; margin-bottom: 0.4rem; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.25rem 0; }
+    .card-box {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      border-radius: 8px;
+    }
+    .card-box h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+    .sandbox {
+      background: var(--card-sub);
+      border: 2px dashed var(--primary);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .sandbox h4 { font-size: 1.15rem; margin-bottom: 0.35rem; }
+    .sandbox-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 1rem; }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 260px;
+      background: var(--canvas-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 1rem 0;
+      cursor: crosshair;
+    }
+    .controls { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem; }
+    .control-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 600; }
+    input[type="range"] { flex: 1; margin: 0 1rem; accent-color: var(--primary); cursor: pointer; }
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn:hover { background: var(--primary-hover); }
+    .btn-auto { background: var(--green); }
+    .btn-auto:hover { background: #059669; }
+    .result-banner {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-top: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .highlight { color: var(--green); font-size: 1.1rem; }
+    .code-box {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      line-height: 1.6;
+      margin: 1rem 0;
+    }
+    .kw { color: #f472b6; }
+    .str { color: #4ade80; }
+    .num { color: #38bdf8; }
+    .comm { color: #94a3b8; font-style: italic; }
+    /* Quiz */
+    .quiz-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .quiz-opt:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+    .quiz-opt.correct { background: rgba(16,185,129,0.2) !important; border-color: var(--green) !important; color: var(--green); }
+    .quiz-opt.wrong { background: rgba(244,63,94,0.2) !important; border-color: var(--rose) !important; color: var(--rose); }
+    .quiz-exp { display: none; background: var(--card-sub); padding: 0.75rem; border-radius: 8px; font-size: 0.88rem; margin: 0.75rem 0; }
+    footer { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 3rem; }
+    @media (max-width: 650px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      h1 { font-size: 2rem; }
+      .lesson { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body data-theme="light">
+  <header>
+    <div class="brand">
+      <span>🤖</span>
+      <div>ML Made Simple</div>
+    </div>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙 Dark Mode</button>
+  </header>
+
+  <div class="container">
+    <!-- Hero -->
+    <div class="hero">
+      <div class="badge">Zero Math Anxiety • 100% Real-Life Intuition</div>
+      <h1>Machine Learning, Explained Without The Headache.</h1>
+      <p>Discover how computers learn from examples through simple metaphors, step-by-step lessons, and live interactive sandboxes.</p>
+    </div>
+
+    <!-- Lesson 1 -->
+    <section class="lesson">
+      <div class="lesson-tag">Lesson 1 • The Big Idea</div>
+      <h2>What is Machine Learning, Really?</h2>
+      <p>Normal software is like a strict recipe book: a programmer writes thousands of exact <code>if/else</code> rules. But the world is too messy for rules.</p>
+      
+      <div class="callout">
+        <h4>👶 The Toddler & The Dog Analogy</h4>
+        <p>You never teach a toddler what a dog is with a math formula: <em>"A dog has snout length 4.2 inches and fur density 800/cm²"</em>. Instead, you point at dogs in the park: <em>"Look, doggie!"</em> After seeing 10 examples, the child's brain automatically spots the pattern.</p>
+        <p><strong>Machine learning does the exact same thing:</strong> you feed data (examples), and the algorithm discovers its own rules!</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>Traditional Programming</h3>
+          <p><strong>Rules + Data = Answers</strong></p>
+          <p style="font-size:0.85rem; color:var(--muted); margin-top:0.4rem;">You hand-code every condition. Fails the moment spammers change "FREE" to "FR33".</p>
+        </div>
+        <div class="card-box" style="border-color:var(--primary);">
+          <h3>Machine Learning</h3>
+          <p><strong>Data + Answers = Rules</strong></p>
+          <p style="font-size:0.85rem; color:var(--muted); margin-top:0.4rem;">The model analyzes 100,000 emails and learns subtle spam patterns automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lesson 2 -->
+    <section class="lesson">
+      <div class="lesson-tag">Lesson 2 • The 3 Families</div>
+      <h2>The 3 Big Types of Machine Learning</h2>
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>1. Supervised Learning 👩‍🏫</h3>
+          <p><strong>Learning with a Teacher (Answer Key)</strong></p>
+          <ul style="font-size:0.85rem; padding-left:1.2rem; margin-top:0.4rem; color:var(--muted);">
+            <li><strong>Classification:</strong> Pick a category (Cat vs. Dog, Spam vs. Ham).</li>
+            <li><strong>Regression:</strong> Predict a continuous number (House prices, Temperature).</li>
+          </ul>
+        </div>
+        <div class="card-box">
+          <h3>2. Unsupervised Learning 🔍</h3>
+          <p><strong>Finding Hidden Patterns Without Labels</strong></p>
+          <p style="font-size:0.85rem; color:var(--muted); margin-top:0.4rem;">No answer key! The computer groups similar data on its own. (e.g. Netflix grouping viewers into taste clusters).</p>
+        </div>
+      </div>
+      <div class="card-box" style="margin-top:1rem;">
+        <h3>3. Reinforcement Learning 🎮</h3>
+        <p><strong>Trial, Error, and Rewards</strong></p>
+        <p style="font-size:0.85rem; color:var(--muted); margin-top:0.4rem;">Like training a puppy with treats. An AI agent gets a reward (+1) for good moves and a penalty (-1) for mistakes. (e.g. Self-driving cars, Chess/Go champions).</p>
+      </div>
+    </section>
+
+    <!-- Lesson 3: Overfitting -->
+    <section class="lesson">
+      <div class="lesson-tag">Lesson 3 • Core Pitfall</div>
+      <h2>Underfitting vs. Overfitting (The Exam Analogy)</h2>
+      <div class="callout">
+        <h4>📝 The Student Who Memorized the Practice Test</h4>
+        <p><strong>Underfitting (Too Lazy):</strong> The student didn't study and guesses "C" for every question. Fails both practice and real test.</p>
+        <p><strong>Overfitting (Memorizing Noise):</strong> The student memorizes every single question on the practice test. They score 100% in practice, but fail the real exam because they never learned the actual concepts!</p>
+        <p><strong>Good Fit:</strong> The model captures the real trend and performs well on brand new, unseen data.</p>
+      </div>
+    </section>
+
+    <!-- Lesson 4: Interactive Pizza Regression -->
+    <section class="lesson">
+      <div class="lesson-tag">Lesson 4 • Interactive Lab 1</div>
+      <h2>Linear Regression: The Pizza Price Predictor</h2>
+      <p>How much should a pizza cost based on its size? We want to find the best line: <code>Price = (Slope × Diameter) + Base Cost</code>.</p>
+      
+      <div class="sandbox">
+        <h4>🍕 Try It Yourself: Fit the Pizza Line</h4>
+        <div class="sandbox-desc">Adjust the slope (price per inch) and base cost (box + oven) to draw a line through the data points, or hit <strong>Auto-Train</strong>!</div>
+        
+        <canvas id="pizzaCanvas" width="600" height="260"></canvas>
+
+        <div class="controls">
+          <div class="control-row">
+            <span>Price per inch (Slope): <strong id="slopeText">$1.00</strong></span>
+            <input type="range" id="slopeInput" min="0.5" max="2.5" step="0.05" value="1.0" oninput="updatePizza()">
+          </div>
+          <div class="control-row">
+            <span>Base Cost (Intercept): <strong id="interceptText">$1.00</strong></span>
+            <input type="range" id="interceptInput" min="-2.0" max="8.0" step="0.25" value="1.0" oninput="updatePizza()">
+          </div>
+          <div style="margin-top:0.5rem; display:flex; gap:0.75rem;">
+            <button class="btn btn-auto" onclick="autoTrainPizza()">⚡ Auto-Train Line (Gradient Descent)</button>
+          </div>
+        </div>
+
+        <div class="result-banner">
+          <div>Predicted Price for 18" Party Pizza: <span class="highlight" id="pizzaPred">$19.00</span></div>
+          <div style="font-size:0.85rem; color:var(--muted);">Loss (Error): <strong id="pizzaLoss" style="color:var(--rose)">--</strong></div>
+        </div>
+      </div>
