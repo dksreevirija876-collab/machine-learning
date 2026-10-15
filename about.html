@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | ML Made Simple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --card-sub: #f1f5f9;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+      --primary: #4f46e5;
+      --primary-light: #eef2ff;
+      --primary-hover: #4338ca;
+      --green: #10b981;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --radius: 12px;
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+    [data-theme="dark"] {
+      --bg: #0b0f19;
+      --card: #131b2e;
+      --card-sub: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: #27354f;
+      --primary: #6366f1;
+      --primary-light: rgba(99, 102, 241, 0.15);
+      --primary-hover: #4f46e5;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+      padding-bottom: 5rem;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.15rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .brand span { font-size: 1.6rem; }
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
+    .nav-link {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--primary); }
+    .theme-btn {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .container { max-width: 800px; margin: 2.5rem auto; padding: 0 1.25rem; }
+    .hero { text-align: center; margin-bottom: 3rem; }
+    .badge {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+    h1 { font-size: 2.4rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; }
+    .hero p { font-size: 1.15rem; color: var(--muted); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    h2 { font-size: 1.45rem; font-weight: 800; margin-bottom: 0.85rem; color: var(--text); }
+    p { margin-bottom: 1rem; color: var(--muted); font-size: 1rem; line-height: 1.7; }
+    .principles-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    .principle-item {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      border-radius: 10px;
+    }
+    .principle-icon { font-size: 1.75rem; margin-bottom: 0.5rem; display: block; }
+    .principle-item h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text); }
+    .principle-item p { font-size: 0.88rem; margin-bottom: 0; line-height: 1.5; }
+    .resource-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+    .resource-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      padding: 0.85rem 1.2rem;
+      border-radius: 8px;
+    }
+    .resource-item span.icon { font-size: 1.4rem; }
+    .resource-item a { font-weight: 700; color: var(--primary); text-decoration: none; }
+    .resource-item a:hover { text-decoration: underline; }
+    .cta-box {
+      background: radial-gradient(circle at 50% 0%, var(--primary-light) 0%, var(--card) 90%);
+      border: 2px solid var(--primary);
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      border-radius: var(--radius);
+      margin-top: 3rem;
+    }
+    .cta-box h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--primary);
+      color: white;
+      padding: 0.85rem 1.75rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      margin-top: 1.25rem;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn:hover { background: var(--primary-hover); transform: translateY(-2px); text-decoration: none; }
+    footer { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 3rem; }
+    @media (max-width: 650px) {
+      .principles-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 2rem; }
+      .card { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body data-theme="light">
+  <header>
+    <a href="index.html" class="brand">
+      <span>🤖</span>
+      <div>ML Made Simple</div>
+    </a>
+    <div class="nav-actions">
+      <a href="index.html" class="nav-link">← Back to Lessons</a>
+      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="hero">
+      <div class="badge">Our Mission</div>
+      <h1>Demystifying AI for Everyone</h1>
+      <p>Why we built ML Made Simple and how we believe machine learning should be taught.</p>
+    </div>
+
+    <!-- The Problem -->
+    <div class="card">
+      <h2>The Problem with Traditional AI Tutorials</h2>
+      <p>
+        Too many machine learning guides start with Greek symbols, matrix calculus, and intimidating mathematical jargon before answering the most basic question: <em>"What is the computer actually doing here?"</em>
+      </p>
+      <p>
+        This leads beginners to believe that machine learning is only for PhD mathematicians. But underneath the hood, the core ideas of machine learning are remarkably intuitive and grounded in everyday human common sense.
+      </p>
+    </div>
+
+    <!-- Core Philosophy -->
+    <div class="card">
+      <h2>Our 4 Core Teaching Principles</h2>
+      <div class="principles-grid">
+        <div class="principle-item">
+          <span class="principle-icon">👶</span>
+          <h3>1. Real-World Metaphors</h3>
+          <p>Every concept is explained using everyday scenarios — like a toddler learning what a dog is, or a chef balancing cookie ingredients.</p>
+        </div>
+        <div class="principle-item">
+          <span class="principle-icon">🎮</span>
+          <h3>2. Interactive Sandboxes</h3>
+          <p>Instead of staring at static graphs, you move sliders, click to drop test points, and watch models adapt in real time.</p>
+        </div>
+        <div class="principle-item">
+          <span class="principle-icon">🚫</span>
+          <h3>3. Zero Math Fear</h3>
+          <p>We focus on the "why" and "how" before the formulas. You don't need calculus to understand regression or neural networks.</p>
+        </div>
+        <div class="principle-item">
+          <span class="principle-icon">💬</span>
+          <h3>4. Code in Plain English</h3>
+          <p>We translate real Python and Scikit-Learn code line-by-line so you see how simple writing AI models actually is.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Who is this for? -->
+    <div class="card">
+      <h2>Who is This Website For?</h2>
+      <p>
+        <strong>• Complete Beginners:</strong> People with zero programming or math background who want to know how modern AI actually works.
+      </p>
+      <p>
+        <strong>• Developers & Coders:</strong> Programmers used to traditional <code>if/else</code> logic who want a friendly introduction to probabilistic modeling.
+      </p>
+      <p>
+        <strong>• Students & Educators:</strong> Anyone looking for clear, visual aids and interactive demonstrations to teach or learn core concepts.
+      </p>
+    </div>
+
+    <!-- Next Steps -->
+    <div class="card">
+      <h2>Recommended Next Steps (Free Resources)</h2>
+      <p>Once you finish the lessons and quizzes on our home page, here are the best free resources to continue your journey:</p>
+
+      <ul class="resource-list">
+        <li class="resource-item">
+          <span class="icon">🐍</span>
+          <div>
+            <a href="https://scikit-learn.org" target="_blank" rel="noopener">Scikit-Learn Documentation</a>
+            <div style="font-size:0.8rem; color:var(--muted);">The industry-standard, easy-to-use Python library for Machine Learning.</div>
+          </div>
+        </li>
+        <li class="resource-item">
+          <span class="icon">📊</span>
+          <div>
+            <a href="https://www.kaggle.com/learn" target="_blank" rel="noopener">Kaggle Learn Micro-Courses</a>
+            <div style="font-size:0.8rem; color:var(--muted);">Free, hands-on coding tutorials in Python, Pandas, and Intro to ML.</div>
+          </div>
+        </li>
+        <li class="resource-item">
+          <span class="icon">🎬</span>
+          <div>
+            <a href="https://www.3blue1brown.com/topics/neural-networks" target="_blank" rel="noopener">3Blue1Brown Neural Networks</a>
+            <div style="font-size:0.8rem; color:var(--muted);">World-class visual animations explaining deep learning and gradient descent.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Call to action -->
+    <div class="cta-box">
+      <h3>Ready to Master Machine Learning?</h3>
+      <p style="margin-bottom:0;">Jump into our interactive lessons, pizza regression sandbox, and quick quiz!</p>
+      <a href="index.html" class="btn">Start Learning Now →</a>
+    </div>
+
+    <footer>
+      🤖 ML Made Simple • Open & Accessible Machine Learning Education
+    </footer>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('themeBtn').textContent = isDark ? '🌙 Dark Mode' : '☀️ Light Mode';
+    }
+  </script>
+</body>
+</html>
